@@ -1,4 +1,3 @@
-# SwiftCommon
-common
+# HowardCommon
 
-hi
+A description of this package.
