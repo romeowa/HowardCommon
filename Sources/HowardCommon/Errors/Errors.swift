@@ -7,12 +7,12 @@
 
 import Foundation
 
-enum Errors {
-    enum ValidationError: LocalizedError {
+public enum Errors {
+    public enum ValidationError: LocalizedError {
         case nilValue(String)
         case nilOrEmpty(String)
         
-        var errorDescription: String? {
+        public var errorDescription: String? {
             switch self {
             case let .nilValue(property):
                 return "nil: \(property)"
@@ -22,11 +22,11 @@ enum Errors {
         }
     }
     
-    enum CommonError: LocalizedError {
+    public enum CommonError: LocalizedError {
         case notImplemented
         case justError(String)
         
-        var errorDescription: String? {
+        public var errorDescription: String? {
             switch self {
             case .notImplemented:
                 return "구현 안 됨"
