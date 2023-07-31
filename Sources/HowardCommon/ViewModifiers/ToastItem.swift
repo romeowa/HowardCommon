@@ -8,15 +8,15 @@
 import Foundation
 import SwiftUI
 
-struct ToastItem: OverlayModifierPresentable {
-    var id = UUID()
-    var message = ""
+public struct ToastItem: OverlayModifierPresentable {
+    public var id = UUID()
+    public var message = ""
     
-    static let commonErrorToastItem = ToastItem(message: "에러")
+    public static let commonErrorToastItem = ToastItem(message: "에러")
 }
 
 extension View {
-    func showToast(item: Binding<ToastItem?>) -> some View {
+    public func showToast(item: Binding<ToastItem?>) -> some View {
         modifier(OverlayModifier(item: item, overlayContent: ToastView(toastItem: item), allowUserInteraction: false))
     }
 }

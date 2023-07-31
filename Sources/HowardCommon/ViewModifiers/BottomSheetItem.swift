@@ -8,24 +8,33 @@
 import Foundation
 import SwiftUI
 
-struct BottomSheetItem: OverlayModifierPresentable {
-    var id = UUID()
-    let contentView: AnyView
-    var opacity: Double?
-    var dismissByBackground = true
+public struct BottomSheetItem: OverlayModifierPresentable {
+    public init(id: UUID = UUID(), contentView: AnyView, opacity: Double? = 0.4, dismissByBackground: Bool = true) {
+        self.id = id
+        self.contentView = contentView
+        self.opacity = opacity
+        self.dismissByBackground = dismissByBackground
+    }
     
-    static func == (lhs: BottomSheetItem, rhs: BottomSheetItem) -> Bool {
+    public var id = UUID()
+    public let contentView: AnyView
+    public var opacity: Double?
+    public var dismissByBackground = true
+    
+    
+    
+    public static func == (lhs: BottomSheetItem, rhs: BottomSheetItem) -> Bool {
         return lhs.id == rhs.id
     }
 }
 
 extension View {
-    func showBottomSheet(item: Binding<BottomSheetItem?>) -> some View {
+    public func showBottomSheet(item: Binding<BottomSheetItem?>) -> some View {
         modifier(OverlayModifier(item: item, overlayContent: BottomSheetItemView(bottomSheetItem: item)))
     }
 }
 
-struct BottomSheetItemView: View {
+public struct BottomSheetItemView: View {
     @Binding var bottomSheetItem: BottomSheetItem?
     @State var showContent = false {
         didSet {
@@ -48,7 +57,7 @@ struct BottomSheetItemView: View {
     
     @State private var gaps: [Double] = []
     
-    var body: some View {
+    public var body: some View {
         if let view = bottomSheetItem?.contentView {
             ZStack(alignment: .bottom) {
                 Color.black.opacity(0.4)

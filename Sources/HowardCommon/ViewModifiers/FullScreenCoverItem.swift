@@ -8,13 +8,13 @@
 import Foundation
 import SwiftUI
 
-struct FullScreenCoverItem: Identifiable {
-    var id = UUID()
-    var contentView: AnyView
+public struct FullScreenCoverItem: Identifiable {
+    public var id = UUID()
+    public var contentView: AnyView
 }
 
 extension FullScreenCoverItem: Equatable {
-    static func == (lhs: FullScreenCoverItem, rhs: FullScreenCoverItem) -> Bool {
+    public static func == (lhs: FullScreenCoverItem, rhs: FullScreenCoverItem) -> Bool {
         lhs.id == rhs.id
     }
 }
@@ -31,7 +31,7 @@ struct FullScreenCoverModifier: ViewModifier {
 }
 
 extension View {
-    func showFullScreenCover(item: Binding<FullScreenCoverItem?>) -> some View {
+    public func showFullScreenCover(item: Binding<FullScreenCoverItem?>) -> some View {
         modifier(FullScreenCoverModifier(item: item))
     }
 }

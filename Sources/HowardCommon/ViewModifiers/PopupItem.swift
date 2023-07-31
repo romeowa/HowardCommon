@@ -8,20 +8,20 @@
 import Foundation
 import SwiftUI
 
-struct PopupItem: OverlayModifierPresentable {
-    var id = UUID()
-    let contentView: AnyView
-    var opacity: Double?
-    var dismissByBackground = false
-    var alignment: Alignment = .center
+public struct PopupItem: OverlayModifierPresentable {
+    public var id = UUID()
+    public let contentView: AnyView
+    public var opacity: Double?
+    public var dismissByBackground = false
+    public var alignment: Alignment = .center
     
-    static func == (lhs: PopupItem, rhs: PopupItem) -> Bool {
+    public static func == (lhs: PopupItem, rhs: PopupItem) -> Bool {
         return lhs.id == rhs.id
     }
 }
 
 extension View {
-    func showPopup(item: Binding<PopupItem?>) -> some View {
+    public func showPopup(item: Binding<PopupItem?>) -> some View {
         modifier(OverlayModifier(item: item, overlayContent: PopupBaseView(popupItem: item)))
     }
 }

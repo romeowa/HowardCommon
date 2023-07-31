@@ -8,20 +8,20 @@
 import Foundation
 import SwiftUI
 
-struct AlertItem: OverlayModifierPresentable {
-    var id = UUID()
-    var title = ""
-    var message = ""
-    var primaryButton: Alert.Button?
-    var secondaryButton: Alert.Button?
+public struct AlertItem: OverlayModifierPresentable {
+    public var id = UUID()
+    public var title = ""
+    public var message = ""
+    public var primaryButton: Alert.Button?
+    public var secondaryButton: Alert.Button?
     
-    static func == (lhs: AlertItem, rhs: AlertItem) -> Bool {
+    public static func == (lhs: AlertItem, rhs: AlertItem) -> Bool {
         return lhs.id == rhs.id
     }
 }
 
 extension View {
-    func showAlert(item: Binding<AlertItem?>) -> some View {
+    public func showAlert(item: Binding<AlertItem?>) -> some View {
         modifier(OverlayModifier(item: item, overlayContent: AlertView(alertItem: item)))
     }
 }

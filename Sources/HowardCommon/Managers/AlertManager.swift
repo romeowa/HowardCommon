@@ -7,43 +7,44 @@
 
 import Foundation
 
-class AlertManager {
-    static let manager = AlertManager()
-    @Published var popupItem: PopupItem?
-    @Published var toastItem: ToastItem?
-    @Published var alertItem: AlertItem?
-    @Published var fullScreenCoverItem: FullScreenCoverItem?
-    @Published var bottomSheetItem: BottomSheetItem?
+public class AlertManager: ObservableObject {
+    public static let manager = AlertManager()
     
-    func showPopup(_ item: PopupItem) {
+    @Published public var popupItem: PopupItem?
+    @Published public var toastItem: ToastItem?
+    @Published public var alertItem: AlertItem?
+    @Published public var fullScreenCoverItem: FullScreenCoverItem?
+    @Published public var bottomSheetItem: BottomSheetItem?
+    
+    public func showPopup(_ item: PopupItem) {
         self.popupItem = item
     }
     
-    func closePopup() {
+    public func closePopup() {
         popupItem = nil
     }
     
-    func showAlert(_ item: AlertItem) {
+    public func showAlert(_ item: AlertItem) {
         self.alertItem = item
     }
     
-    func showToast(_ item: ToastItem) {
+    public func showToast(_ item: ToastItem) {
         self.toastItem = item
     }
     
-    func showFullScreenCover(_ item: FullScreenCoverItem) {
+    public func showFullScreenCover(_ item: FullScreenCoverItem) {
         self.fullScreenCoverItem = item
     }
     
-    func closeFullScreenCover() {
+    public func closeFullScreenCover() {
         self.fullScreenCoverItem = nil
     }
     
-    func showBottomSheet(_ item: BottomSheetItem) {
+    public func showBottomSheet(_ item: BottomSheetItem) {
         self.bottomSheetItem = item
     }
     
-    func closeBottomSheetItem() {
+    public func closeBottomSheetItem() {
         self.bottomSheetItem = nil
     }
 }
