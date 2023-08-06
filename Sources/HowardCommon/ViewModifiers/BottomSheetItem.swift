@@ -21,8 +21,6 @@ public struct BottomSheetItem: OverlayModifierPresentable {
     public var opacity: Double?
     public var dismissByBackground = true
     
-    
-    
     public static func == (lhs: BottomSheetItem, rhs: BottomSheetItem) -> Bool {
         return lhs.id == rhs.id
     }
@@ -135,7 +133,6 @@ public struct BottomSheetItemView: View {
                         showContent = true
                     }
                 }
-                
             }
             
         } else {
