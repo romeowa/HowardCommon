@@ -6,6 +6,54 @@
 //
 
 import Foundation
+public enum DayOfWeek: Int, Codable {
+    case sunday = 1
+    case monday = 2
+    case tuesday = 3
+    case wednesday = 4
+    case thursday = 5
+    case friday = 6
+    case saturday = 7
+    
+    public var shortText: String {
+        switch self {
+        case .sunday:
+            return "일"
+        case .monday:
+            return "월"
+        case .tuesday:
+            return "화"
+        case .wednesday:
+            return "수"
+        case .thursday:
+            return "목"
+        case .friday:
+            return "금"
+        case .saturday:
+            return "토"
+        }
+    }
+    
+    public var fullText: String {
+        switch self {
+        case .sunday:
+            return "일요일"
+        case .monday:
+            return "월요일"
+        case .tuesday:
+            return "화요일"
+        case .wednesday:
+            return "수요일"
+        case .thursday:
+            return "목요일"
+        case .friday:
+            return "금요일"
+        case .saturday:
+            return "토요일"
+        }
+    }
+}
+
 
 public extension Date {
     struct Singleton {
@@ -175,7 +223,20 @@ public extension Date {
         var components = (calendar as NSCalendar).components(unitFlags, from: from)
         
         components.month = 0
-        components.day = days + 1
+        components.day = days
+        components.year = 0
+        
+        return calendar.date(byAdding: components, to: from) ?? self
+    }
+    
+    func before(days: Int) -> Date {
+        let calendar = Date.staticCurrentCalendar
+        let from = calendar.startOfDay(for: self)
+        let unitFlags: NSCalendar.Unit = [.year, .month, .day]
+        var components = (calendar as NSCalendar).components(unitFlags, from: from)
+        
+        components.month = 0
+        components.day = -days
         components.year = 0
         
         return calendar.date(byAdding: components, to: from) ?? self
@@ -295,7 +356,7 @@ public extension Date {
     }
     
     var isToday: Bool {
-        return self.isSameDayForWatch(Date())
+        return self.isSameDay(Date())
     }
     
     var isThisYear: Bool {
@@ -305,7 +366,7 @@ public extension Date {
     var isTomorrow: Bool {
         let calendar = Date.staticCurrentCalendar
         if let tomorrow = (calendar as NSCalendar).date(byAdding: oneDayComponents, to: Date(), options: NSCalendar.Options(rawValue: 0)) {
-            return self.isSameDayForWatch(tomorrow)
+            return self.isSameDay(tomorrow)
         } else {
             return false
         }
@@ -314,7 +375,7 @@ public extension Date {
     var isYesterday: Bool {
         let calendar = Date.staticCurrentCalendar
         if let yesterday = (calendar as NSCalendar).date(byAdding: self.minusOneDayComponents, to: Date(), options: NSCalendar.Options(rawValue: 0)) {
-            return self.isSameDayForWatch(yesterday)
+            return self.isSameDay(yesterday)
         } else {
             return false
         }
@@ -340,7 +401,7 @@ public extension Date {
         return false
     }
     
-    func isSameDayForWatch(_ date: Date) -> Bool {
+    func isSameDay(_ date: Date) -> Bool {
         let calendar = Date.staticCurrentCalendar
         let unitFlags: NSCalendar.Unit = [.year, .month, .day]
         let currentDateComponents = (calendar as NSCalendar).components(unitFlags, from: date)
@@ -415,6 +476,12 @@ public extension Date {
         } else {
             return self
         }
+    }
+    
+    func getDayOfWeek() -> DayOfWeek {
+        let calendar = Date.staticCurrentCalendar
+        let dayOfWeek = calendar.component(.weekday, from: self)
+        return DayOfWeek(rawValue: dayOfWeek) ?? .sunday
     }
 }
 
