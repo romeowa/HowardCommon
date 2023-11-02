@@ -8,7 +8,7 @@
 import Foundation
 
 public class AlertManager: ObservableObject {
-    public static let manager = AlertManager()
+    public static let `default` = AlertManager()
     
     @Published public var popupItem: PopupItem?
     @Published public var toastItem: ToastItem?

@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by howard on 2023/07/23.
 //
@@ -9,18 +9,18 @@ import Foundation
 import SwiftUI
 
 
-protocol OverlayModifierPresentable: Identifiable, Equatable {}
+public protocol OverlayModifierPresentable: Identifiable, Equatable {}
 
-struct OverlayModifier<Item: OverlayModifierPresentable, OverlayContent: View>: ViewModifier {
+public struct OverlayModifier<Item: OverlayModifierPresentable, OverlayContent: View>: ViewModifier {
     @Binding var item: Item?
     let overlayContent: OverlayContent
     var allowUserInteraction: Bool = true
-
+    
     @State private var overlayWindow: UIWindow!
     @State private var viewController: UIViewController!
     @State private var transitioning: Bool = false
-
-    func body(content: Content) -> some View {
+    
+    public func body(content: Content) -> some View {
         content
             .introspectViewController { viewController in
                 self.viewController = viewController
@@ -55,7 +55,7 @@ struct OverlayModifier<Item: OverlayModifierPresentable, OverlayContent: View>: 
         if item != nil {
             if anotherOverlayAlreadyPresented { return }
             if overlayAlreadyPresented { return }
-        
+            
             transitioning = true
             
             overlayWindow.makeKeyAndVisible()

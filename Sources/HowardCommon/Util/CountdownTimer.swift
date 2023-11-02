@@ -8,8 +8,8 @@
 import Combine
 import SwiftUI
 
-class CountdownTimer: ObservableObject {
-    @Published var timeLeft: Int
+public class CountdownTimer: ObservableObject {
+    @Published public var timeLeft: Int
     private(set) var countdownTime: Int
     private var timerSubscriptions = Set<AnyCancellable>()
     private var applicationSubscriptions = Set<AnyCancellable>()
@@ -22,11 +22,11 @@ class CountdownTimer: ObservableObject {
         case ended
     }
     
-    var isComplete: Bool {
+    public var isComplete: Bool {
         countdownState == .ended
     }
     
-    init(_ countdownTime: Int = 5) {
+    public init(_ countdownTime: Int = 5) {
         self.countdownTime = max(countdownTime, 1)
         self.timeLeft = max(countdownTime, 1)
         
@@ -52,17 +52,22 @@ class CountdownTimer: ObservableObject {
             .store(in: &applicationSubscriptions)
     }
     
-    func start() {
+    public func start() {
         timeLeft = countdownTime
         resumeTimer()
         countdownState = .active
     }
     
-    func pause() {
+    public func pause() {
         guard countdownState == .active else { return }
         
         timerSubscriptions.removeAll()
         countdownState = .paused
+    }
+    
+    public func stop() {
+        timerSubscriptions.removeAll()
+        countdownState = .notStarted
     }
     
     private func decrementTimeLeft() {

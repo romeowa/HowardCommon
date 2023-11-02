@@ -9,6 +9,18 @@ import Foundation
 import SwiftUI
 
 public struct PopupItem: OverlayModifierPresentable {
+    public init(id: UUID = UUID(), 
+                  contentView: AnyView,
+                  opacity: Double? = nil,
+                  dismissByBackground: Bool = false,
+                  alignment: Alignment = .center) {
+        self.id = id
+        self.contentView = contentView
+        self.opacity = opacity
+        self.dismissByBackground = dismissByBackground
+        self.alignment = alignment
+    }
+    
     public var id = UUID()
     public let contentView: AnyView
     public var opacity: Double?

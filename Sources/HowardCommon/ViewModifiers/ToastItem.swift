@@ -13,6 +13,10 @@ public struct ToastItem: OverlayModifierPresentable {
     public var message = ""
     
     public static let commonErrorToastItem = ToastItem(message: "에러")
+    public init(id: UUID = UUID(), message: String = "") {
+        self.id = id
+        self.message = message
+    }
 }
 
 extension View {
