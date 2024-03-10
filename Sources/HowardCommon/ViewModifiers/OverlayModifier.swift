@@ -11,9 +11,9 @@ import SwiftUI
 
 public protocol OverlayModifierPresentable: Identifiable, Equatable {}
 
-public struct OverlayModifier<Item: OverlayModifierPresentable, OverlayContent: View>: ViewModifier {
+public struct OverlayModifier<Item: OverlayModifierPresentable, OverlayView: View>: ViewModifier {
     @Binding var item: Item?
-    let overlayContent: OverlayContent
+    let overlayContent: OverlayView
     var allowUserInteraction: Bool = true
     
     @State private var overlayWindow: UIWindow!
@@ -30,7 +30,7 @@ public struct OverlayModifier<Item: OverlayModifierPresentable, OverlayContent: 
             }
     }
     
-    private func present<OverlayContent: View>(overlayContent: OverlayContent, allowUserInteraction: Bool) {
+    private func present<Content: View>(overlayContent: Content, allowUserInteraction: Bool) {
         if transitioning { return }
         
         guard let windowScene = self.viewController.view.window?.windowScene else { return }
@@ -46,7 +46,7 @@ public struct OverlayModifier<Item: OverlayModifierPresentable, OverlayContent: 
         }
         
         let rootViewController = overlayWindow.rootViewController!
-        let overlayAlreadyPresented = rootViewController.presentedViewController is OverlayHostingController<OverlayContent>
+        let overlayAlreadyPresented = rootViewController.presentedViewController is OverlayHostingController<Content>
         let anotherOverlayAlreadyPresented = windowScene
             .windows
             .compactMap { String(describing: $0.rootViewController?.presentedViewController) }

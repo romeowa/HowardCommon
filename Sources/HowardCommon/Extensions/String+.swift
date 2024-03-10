@@ -168,4 +168,49 @@ public extension String {
         let dateFormatter = ISO8601DateFormatter()
         return dateFormatter.date(from:self)
     }
+    
+    func extractPhoneNumbers() -> [String] {
+        do {
+            let phoneNumberRegex = try NSRegularExpression(pattern: "\\b\\d{1,3}?[-.: )]?\\d{3,4}[-.: ]\\d{4}\\b", options: [])
+            let matches = phoneNumberRegex.matches(in: self, options: [], range: NSRange(location: 0, length: self.utf16.count))
+
+            return matches.map {
+                let range = Range($0.range, in: self)!
+                return String(self[range])
+            }
+        } catch {
+            print("Error creating regular expression: \(error)")
+            return []
+        }
+    }
+
+    func extractURLs() -> [String] {
+        do {
+            let urlRegex = try NSRegularExpression(pattern: "(?i)(https?://|www\\.)[a-z0-9-]+\\.[a-z]+(?:\\.[a-z]+)?(?:/[^\\s]*)?", options: [])
+            let matches = urlRegex.matches(in: self, options: [], range: NSRange(location: 0, length: self.utf16.count))
+
+            return matches.map {
+                let range = Range($0.range, in: self)!
+                return String(self[range])
+            }
+        } catch {
+            print("Error creating regular expression: \(error)")
+            return []
+        }
+    }
+
+    func extractEmails() -> [String] {
+        do {
+            let emailRegex = try NSRegularExpression(pattern: "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b", options: [])
+            let matches = emailRegex.matches(in: self, options: [], range: NSRange(location: 0, length: self.utf16.count))
+
+            return matches.map {
+                let range = Range($0.range, in: self)!
+                return String(self[range])
+            }
+        } catch {
+            print("Error creating regular expression: \(error)")
+            return []
+        }
+    }
 }

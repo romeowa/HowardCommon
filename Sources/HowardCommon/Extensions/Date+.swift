@@ -52,6 +52,20 @@ public enum DayOfWeek: Int, Codable {
             return "토요일"
         }
     }
+    
+    public func isEanbledDay() -> Bool {
+        if self == Date.now.getDayOfWeek() {
+            return true
+        } else if self.rawValue < Date.now.getDayOfWeek().rawValue {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    public func isPastDay() -> Bool {
+        self.rawValue < Date.now.getDayOfWeek().rawValue
+    }
 }
 
 
@@ -180,6 +194,57 @@ public extension Date {
         }
         return formatter.string(from: self)
     }
+    
+    var HHmm: String {
+        var formatter: DateFormatter {
+            struct Static {
+                static var formatter: DateFormatter?
+            }
+            
+            if Static.formatter == nil {
+                Static.formatter = DateFormatter()
+                Static.formatter?.locale = Singleton.currentLocale
+                Static.formatter?.dateFormat = "HH:mm"
+            }
+            return Static.formatter!
+        }
+        return formatter.string(from: self)
+    }
+    
+    var MMdd: String {
+        var formatter: DateFormatter {
+            struct Static {
+                static var formatter: DateFormatter?
+            }
+            
+            if Static.formatter == nil {
+                Static.formatter = DateFormatter()
+                Static.formatter?.locale = Singleton.currentLocale
+                Static.formatter?.dateFormat = "MMdd"
+            }
+            return Static.formatter!
+        }
+        
+        return formatter.string(from: self)
+    }
+    
+    var MMSlashdd: String {
+        var formatter: DateFormatter {
+            struct Static {
+                static var formatter: DateFormatter?
+            }
+            
+            if Static.formatter == nil {
+                Static.formatter = DateFormatter()
+                Static.formatter?.locale = Singleton.currentLocale
+                Static.formatter?.dateFormat = "MM/dd"
+            }
+            return Static.formatter!
+        }
+        
+        return formatter.string(from: self)
+    }
+    
     
     var dateWithOutTime: Date {
         let calendar = Date.staticCurrentCalendar

@@ -8,10 +8,14 @@
 import Foundation
 import SwiftUI
 
-class ErrorHandler: ObservableObject {
+public class ErrorHandler: ObservableObject {
     @Published var currentHandlerItem: ErrorHandlerItem?
-
-    func handle(error: Error?, handler: (() -> Bool)? = nil) {
+    
+    public init() {
+        
+    }
+    
+    public func handle(error: Error?, handler: (() -> Bool)? = nil) {
         guard let error = error else { return }
         
         Logger.error("\(error.localizedDescription)")

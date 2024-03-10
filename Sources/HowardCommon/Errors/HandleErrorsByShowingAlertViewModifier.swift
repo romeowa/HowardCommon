@@ -8,11 +8,11 @@
 import Foundation
 import SwiftUI
 
-struct HandleErrorsByShowingAlertViewModifier: ViewModifier {
+public struct HandleErrorsByShowingAlertViewModifier: ViewModifier {
     @ObservedObject var errorHandler: ErrorHandler
     var dismissAction: (() -> Void)?
     
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         content
             .alert(item: $errorHandler.currentHandlerItem) { currentHandlerItem in
                 Alert(
@@ -27,7 +27,7 @@ struct HandleErrorsByShowingAlertViewModifier: ViewModifier {
 }
 
 extension View {
-    func showAlertWithErrorHadler(_ errorHandling: ErrorHandler, dismissAction: (() -> Void)? = nil ) -> some View {
+    public func showAlertWithErrorHadler(_ errorHandling: ErrorHandler, dismissAction: (() -> Void)? = nil ) -> some View {
         modifier(HandleErrorsByShowingAlertViewModifier(errorHandler: errorHandling, dismissAction: dismissAction))
     }
 }

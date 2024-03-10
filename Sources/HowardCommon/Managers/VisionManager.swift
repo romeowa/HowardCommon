@@ -11,7 +11,7 @@ import VisionKit
 public class VisionManager: NSObject {
     public static let `default` = VisionManager()
     
-    public func getText(withImage image: CGImage) async throws -> [String] {
+    public func getText(withImage image: CGImage, language: String = "ko-KR") async throws -> [String] {
         return try await withCheckedThrowingContinuation { continuation in
             let handler = VNImageRequestHandler(cgImage: image, options: [:])
             let request = VNRecognizeTextRequest { request, error in
@@ -32,14 +32,18 @@ public class VisionManager: NSObject {
                 continuation.resume(returning: text)
             }
             
+            if let supportedLanguages = try? request.supportedRecognitionLanguages() {
+                print("s = \(supportedLanguages)")
+            }
+            
             if #available(iOS 16.0, *) {
                 let revision3 = VNRecognizeTextRequestRevision3
                 request.revision = revision3
                 request.recognitionLevel = .accurate
-                request.recognitionLanguages =  ["ko-KR", "en-US"]
+                request.recognitionLanguages =  [language]
                 request.usesLanguageCorrection = true
             } else {
-                request.recognitionLanguages =  ["ko-KR", "en-US"]
+                request.recognitionLanguages =  [language]
                 request.usesLanguageCorrection = true
             }
             

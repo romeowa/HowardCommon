@@ -39,16 +39,16 @@ public class Camera: NSObject {
     
     private var captureDevices: [AVCaptureDevice] {
         var devices = [AVCaptureDevice]()
-        #if os(macOS) || (os(iOS) && targetEnvironment(macCatalyst))
+#if os(macOS) || (os(iOS) && targetEnvironment(macCatalyst))
         devices += allCaptureDevices
-        #else
+#else
         if let backDevice = backCaptureDevices.first {
             devices += [backDevice]
         }
         if let frontDevice = frontCaptureDevices.first {
             devices += [frontDevice]
         }
-        #endif
+#endif
         return devices
     }
     
@@ -231,8 +231,8 @@ public class Camera: NSObject {
                 photoSettings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.hevc])
             }
             
-            let isFlashAvailable = self.deviceInput?.device.isFlashAvailable ?? false
-//            photoSettings.flashMode = isFlashAvailable ? .auto : .off
+            //            let isFlashAvailable = self.deviceInput?.device.isFlashAvailable ?? false
+            //            photoSettings.flashMode = isFlashAvailable ? .auto : .off
             photoSettings.isHighResolutionPhotoEnabled = true
             
             if let previewPhotoPixelFormatType = photoSettings.availablePreviewPhotoPixelFormatTypes.first {
@@ -343,6 +343,7 @@ extension Camera: AVCapturePhotoCaptureDelegate {
         if let photoData = photo.fileDataRepresentation() {
             self.delegate?.didFinishProcessingPhoto(photoData: photoData)
         }
+        
         addToPhotoStream?(photo)
     }
 }

@@ -9,6 +9,14 @@ import Foundation
 import SwiftUI
 
 public struct AlertItem: OverlayModifierPresentable {
+    public init(id: UUID = UUID(), title: String = "", message: String = "", primaryButton: Alert.Button? = nil, secondaryButton: Alert.Button? = nil) {
+        self.id = id
+        self.title = title
+        self.message = message
+        self.primaryButton = primaryButton
+        self.secondaryButton = secondaryButton
+    }
+    
     public var id = UUID()
     public var title = ""
     public var message = ""

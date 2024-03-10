@@ -39,6 +39,6 @@ struct InnerWebView: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: WKWebView, context: UIViewRepresentableContext<InnerWebView>) {
-        uiView.reload()
+        uiView.load(URLRequest(url: url))
     }
 }

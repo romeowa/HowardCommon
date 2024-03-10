@@ -54,7 +54,6 @@ public final class DataModel: NSObject, ObservableObject {
     }
     
     public func savePhoto(imageData: Data) {
-        
         Task {
             do {
                 try await photoCollection.addImage(imageData)

@@ -8,6 +8,20 @@
 import Foundation
 
 public class AlertManager: ObservableObject {
+    public init(
+        popupItem: PopupItem? = nil,
+        toastItem: ToastItem? = nil,
+        alertItem: AlertItem? = nil,
+        fullScreenCoverItem: FullScreenCoverItem? = nil,
+        bottomSheetItem: BottomSheetItem? = nil
+    ) {
+        self.popupItem = popupItem
+        self.toastItem = toastItem
+        self.alertItem = alertItem
+        self.fullScreenCoverItem = fullScreenCoverItem
+        self.bottomSheetItem = bottomSheetItem
+    }
+    
     public static let `default` = AlertManager()
     
     @Published public var popupItem: PopupItem?

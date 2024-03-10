@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct ErrorHandlerItem: Identifiable {
-    var id = UUID()
+public struct ErrorHandlerItem: Identifiable {
+    public var id = UUID()
     var error: Error
     var message: String {
         return error.localizedDescription
