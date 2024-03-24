@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct AsyncToggle: View {
+public struct AsyncToggle: View {
     @State var title: String
     @State var description: String = ""
     @State private(set) var isProgressing = false
@@ -15,7 +15,7 @@ struct AsyncToggle: View {
     @Binding var isOn: Bool
     var action: () async -> Bool
     
-    var body: some View {
+    public var body: some View {
         ZStack {
             HStack(spacing: 0) {
                 VStack(alignment: .leading, spacing: 0) {
