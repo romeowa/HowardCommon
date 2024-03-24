@@ -548,6 +548,12 @@ public extension Date {
         let dayOfWeek = calendar.component(.weekday, from: self)
         return DayOfWeek(rawValue: dayOfWeek) ?? .sunday
     }
+    
+    func minutesBetweenDates(targetDate: Date) -> Int? {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.minute], from: targetDate, to: self)
+        return components.minute
+    }
 }
 
 extension Date: Identifiable {
