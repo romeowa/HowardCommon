@@ -8,6 +8,20 @@
 import SwiftUI
 
 public struct AsyncToggle: View {
+    public init(
+        title: String,
+        description: String = "",
+        isProgressing: Bool = false,
+        isOn: Bool,
+        action: @escaping () async -> Bool
+    ) {
+        self.title = title
+        self.description = description
+        self.isProgressing = isProgressing
+        self.isOn = isOn
+        self.action = action
+    }
+    
     @State var title: String
     @State var description: String = ""
     @State private(set) var isProgressing = false
