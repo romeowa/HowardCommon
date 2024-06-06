@@ -11,14 +11,12 @@ public struct AsyncToggle: View {
     public init(
         title: String,
         description: String = "",
-        isProgressing: Bool = false,
-        isOn: Bool,
+        isOn: Binding<Bool>,
         action: @escaping () async -> Bool
     ) {
         self.title = title
         self.description = description
-        self.isProgressing = isProgressing
-        self.isOn = isOn
+        _isOn = isOn
         self.action = action
     }
     

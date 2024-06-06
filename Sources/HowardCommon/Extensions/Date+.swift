@@ -71,8 +71,8 @@ public enum DayOfWeek: Int, Codable {
 
 public extension Date {
     struct Singleton {
-        static let currentCalendar: Calendar = Calendar.autoupdatingCurrent
-        static let currentLocale: Locale = Locale.preferredLanguages.first == nil ? Locale.current : Locale(identifier: Locale.preferredLanguages.first!)
+        public static let currentCalendar: Calendar = Calendar.autoupdatingCurrent
+        public static let currentLocale: Locale = Locale.preferredLanguages.first == nil ? Locale.current : Locale(identifier: Locale.preferredLanguages.first!)
     }
     
     static var staticCurrentCalendar: Calendar {
@@ -294,6 +294,12 @@ public extension Date {
         return calendar.date(byAdding: components, to: from) ?? self
     }
     
+    func noon() -> Date {
+        let calendar = Date.staticCurrentCalendar
+        let dateComponents = calendar.dateComponents([.year, .month, .day], from: self)
+        return calendar.date(from: dateComponents) ?? self
+    }
+    
     func before(days: Int) -> Date {
         let calendar = Date.staticCurrentCalendar
         let from = calendar.startOfDay(for: self)
@@ -477,6 +483,13 @@ public extension Date {
         }
         
         return false
+    }
+    
+    var onlyDate: Date {
+        let calendar = Date.staticCurrentCalendar
+        let unitFlags: NSCalendar.Unit = [.year, .month, .day]
+        let dateComponents = (calendar as NSCalendar).components(unitFlags, from: self)
+        return calendar.date(from: dateComponents) ?? self
     }
     
     func toString(dateFormat format : String) -> String {

@@ -9,13 +9,13 @@ import Foundation
 import AVKit
 
 extension URL {
-    func getDurationFromLocalfile() -> Float {
+    public func getDurationFromLocalfile() -> Float {
         let audioAsset = AVURLAsset(url: self)
         let duration = Float(CMTimeGetSeconds(audioAsset.duration))
         return duration
     }
     
-    var queryDictionary: [String: String]? {
+    public var queryDictionary: [String: String]? {
         guard let query = self.query else { return nil}
         
         var queryStrings = [String: String]()
@@ -31,5 +31,14 @@ extension URL {
             queryStrings[key] = value
         }
         return queryStrings
+    }
+    
+    public func mimeType() -> String {
+        if let mimeType = UTType(filenameExtension: self.pathExtension)?.preferredMIMEType {
+            return mimeType
+        }
+        else {
+            return "application/octet-stream"
+        }
     }
 }
