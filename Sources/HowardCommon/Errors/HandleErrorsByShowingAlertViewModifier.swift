@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by howard on 2023/07/09.
 //
@@ -9,25 +9,29 @@ import Foundation
 import SwiftUI
 
 public struct HandleErrorsByShowingAlertViewModifier: ViewModifier {
-    @ObservedObject var errorHandler: ErrorHandler
+    @StateObject var errorHandler: ErrorHandler
     var dismissAction: (() -> Void)?
     
     public func body(content: Content) -> some View {
         content
-            .alert(item: $errorHandler.currentHandlerItem) { currentHandlerItem in
+            .alert(isPresented: $errorHandler.showAlert) {
                 Alert(
-                    title: Text("에러"),
-                    message: Text(currentHandlerItem.message),
-                    dismissButton: .default(Text("확인")) {
+                    title: Text("Error"),
+                    message: Text(errorHandler.message),
+                    dismissButton: .default(Text("확인"), action: {
                         dismissAction?()
-                    }
-                )
+                    }))
             }
     }
 }
 
 extension View {
     public func showAlertWithErrorHadler(_ errorHandling: ErrorHandler, dismissAction: (() -> Void)? = nil ) -> some View {
-        modifier(HandleErrorsByShowingAlertViewModifier(errorHandler: errorHandling, dismissAction: dismissAction))
+        modifier(
+            HandleErrorsByShowingAlertViewModifier(
+                errorHandler: errorHandling,
+                dismissAction: dismissAction
+            )
+        )
     }
 }

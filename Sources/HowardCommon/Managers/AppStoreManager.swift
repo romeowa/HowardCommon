@@ -7,10 +7,10 @@
 
 import StoreKit
 
-class AppStoreManager {
-    static let manager = AppStoreManager()
+public class AppStoreManager {
+    public static let manager = AppStoreManager()
     
-    func showReviewView() {
+    public func showReviewView() {
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
             SKStoreReviewController.requestReview(in: windowScene)
         }

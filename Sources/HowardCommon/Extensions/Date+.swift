@@ -562,14 +562,26 @@ public extension Date {
         return DayOfWeek(rawValue: dayOfWeek) ?? .sunday
     }
     
-    func minutesBetweenDates(targetDate: Date) -> Int? {
+    func minutesBetweenDates(targetDate: Date) -> Int {
         let calendar = Calendar.current
         let components = calendar.dateComponents([.minute], from: targetDate, to: self)
-        return components.minute
+        return components.minute ?? 0
+    }
+    
+    func afterMonths(_ months: Int) -> Date {
+        let calendar = Date.staticCurrentCalendar
+        var dateComponents = DateComponents()
+        dateComponents.month = months
+        
+        if let updatedDate = calendar.date(byAdding: dateComponents, to: self) {
+            return updatedDate
+        } else {
+            return self
+        }
     }
 }
 
-extension Date: Identifiable {
+extension Date: @retroactive Identifiable {
     public var id: Self {
         self
     }

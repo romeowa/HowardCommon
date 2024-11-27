@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by howard on 2023/07/23.
 //
@@ -8,35 +8,39 @@
 import Foundation
 import SwiftUI
 
-public struct ToastItem: OverlayModifierPresentable {
+public struct ContentToastItem: OverlayModifierPresentable {
     public var id = UUID()
-    public var message = ""
+    public let contentView: AnyView
     
-    public static let commonErrorToastItem = ToastItem(message: "에러")
-    public init(id: UUID = UUID(), message: String = "") {
+    public init(id: UUID = UUID(), contentView: AnyView) {
         self.id = id
-        self.message = message
+        self.contentView = contentView
+    }
+    
+    public static func == (lhs: ContentToastItem, rhs: ContentToastItem) -> Bool {
+        return lhs.id == rhs.id
     }
 }
 
 extension View {
-    public func showToast(item: Binding<ToastItem?>, duration: TimeInterval = 1.0) -> some View {
-        modifier(OverlayModifier(item: item, overlayContent: ToastView(toastItem: item, duration: duration), allowUserInteraction: false))
+    public func showContentToast(item: Binding<ContentToastItem?>, duration: TimeInterval = 1.0) -> some View {
+        modifier(OverlayModifier(item: item, overlayContent: ContentToastItemView(toastItem: item, duration: duration), allowUserInteraction: false))
     }
 }
 
-struct ToastView: View {
-    @Binding var toastItem: ToastItem?
+struct ContentToastItemView: View {
+    @Binding var toastItem: ContentToastItem?
     var duration: TimeInterval
     
     var body: some View {
         VStack {
             Spacer()
-            if let message = toastItem?.message {
+            if let contentView = toastItem?.contentView {
+                contentView
+            } else {
                 Group {
-                    Text(message)
+                    Text("에러")
                         .multilineTextAlignment(.leading)
-                        .lineLimit(2)
                         .foregroundColor(Color.white)
                         .padding(.vertical, 12.5)
                         .padding(.horizontal, 20)
@@ -45,7 +49,6 @@ struct ToastView: View {
                 .cornerRadius(4)
             }
         }
-        .padding()
         .animation(.linear(duration: 0.3), value: toastItem)
         .transition(.opacity)
         .onAppear {

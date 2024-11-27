@@ -12,6 +12,16 @@ import SwiftUI
 public protocol OverlayModifierPresentable: Identifiable, Equatable {}
 
 public struct OverlayModifier<Item: OverlayModifierPresentable, OverlayView: View>: ViewModifier {
+    public init(
+        item: Binding<Item?>,
+        overlayContent: OverlayView,
+        allowUserInteraction: Bool = true
+    ) {
+        _item = item
+        self.overlayContent = overlayContent
+        self.allowUserInteraction = allowUserInteraction
+    }
+    
     @Binding var item: Item?
     let overlayContent: OverlayView
     var allowUserInteraction: Bool = true
@@ -26,7 +36,10 @@ public struct OverlayModifier<Item: OverlayModifierPresentable, OverlayView: Vie
                 self.viewController = viewController
             }
             .onChange(of: item) { _ in
-                present(overlayContent: overlayContent, allowUserInteraction: allowUserInteraction)
+                present(
+                    overlayContent: overlayContent,
+                    allowUserInteraction: allowUserInteraction
+                )
             }
     }
     

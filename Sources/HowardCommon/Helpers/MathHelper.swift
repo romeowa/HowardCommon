@@ -30,5 +30,4 @@ public class MathHelper {
         
         return earthRadiusKm * c
     }
-
 }

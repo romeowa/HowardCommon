@@ -9,7 +9,13 @@ import Foundation
 import SwiftUI
 
 public struct AlertItem: OverlayModifierPresentable {
-    public init(id: UUID = UUID(), title: String = "", message: String = "", primaryButton: Alert.Button? = nil, secondaryButton: Alert.Button? = nil) {
+    public init(
+        id: UUID = UUID(),
+        title: String = "",
+        message: String = "",
+        primaryButton: Alert.Button? = nil,
+        secondaryButton: Alert.Button? = nil
+    ) {
         self.id = id
         self.title = title
         self.message = message
@@ -30,7 +36,12 @@ public struct AlertItem: OverlayModifierPresentable {
 
 extension View {
     public func showAlert(item: Binding<AlertItem?>) -> some View {
-        modifier(OverlayModifier(item: item, overlayContent: AlertView(alertItem: item)))
+        modifier(
+            OverlayModifier(
+                item: item,
+                overlayContent: AlertView(alertItem: item)
+            )
+        )
     }
 }
 

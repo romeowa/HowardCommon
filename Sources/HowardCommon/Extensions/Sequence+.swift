@@ -8,16 +8,12 @@
 import Foundation
 
 extension Sequence {
-    public func asyncMap<T>(
-        _ transform: (Element) async throws -> T
-    ) async rethrows -> [T] {
-        var values = [T]()
-        
+    func asyncMap<T>(_ transform: @escaping (Element) async throws -> T) async throws -> [T] {
+        var results = [T]()
         for element in self {
-            try await values.append(transform(element))
+            results.append(try await transform(element))
         }
-        
-        return values
+        return results
     }
     
     public func asyncForEach(
@@ -29,31 +25,36 @@ extension Sequence {
     }
     
     public func concurrentForEach(
-        _ operation: @escaping (Element) async -> Void
-    ) async {
-        // A task group automatically waits for all of its
-        // sub-tasks to complete, while also performing those
-        // tasks in parallel:
-        await withTaskGroup(of: Void.self) { group in
+        _ operation: @escaping (Element) async throws -> Void
+    ) async throws {
+        try await withThrowingTaskGroup(of: Void.self) { group in
             for element in self {
                 group.addTask {
-                    await operation(element)
+                    try  await operation(element)
                 }
             }
+            
+            try await group.waitForAll()
         }
     }
     
     public func concurrentMap<T>(
         _ transform: @escaping (Element) async throws -> T
     ) async throws -> [T] {
-        let tasks = map { element in
-            Task {
-                try await transform(element)
+        let indexedResults = try await withThrowingTaskGroup(of: (Int, T).self) { group in
+            for (index, element) in self.enumerated() {
+                group.addTask {
+                    (index, try await transform(element))
+                }
             }
+            
+            var results: [(Int, T)] = []
+            for try await result in group {
+                results.append(result)
+            }
+            return results
         }
         
-        return try await tasks.asyncMap { task in
-            try await task.value
-        }
+        return indexedResults.sorted(by: { $0.0 < $1.0 }).map { $0.1 }
     }
 }

@@ -13,17 +13,20 @@ public class AlertManager: ObservableObject {
         toastItem: ToastItem? = nil,
         alertItem: AlertItem? = nil,
         fullScreenCoverItem: FullScreenCoverItem? = nil,
-        bottomSheetItem: BottomSheetItem? = nil
+        bottomSheetItem: BottomSheetItem? = nil,
+        contentToastItem: ContentToastItem? = nil
     ) {
         self.popupItem = popupItem
         self.toastItem = toastItem
         self.alertItem = alertItem
         self.fullScreenCoverItem = fullScreenCoverItem
         self.bottomSheetItem = bottomSheetItem
+        self.contentToastItem = contentToastItem
     }
     
     public static let `default` = AlertManager()
     
+    @Published public var contentToastItem: ContentToastItem?
     @Published public var popupItem: PopupItem?
     @Published public var toastItem: ToastItem?
     @Published public var alertItem: AlertItem?
@@ -60,5 +63,13 @@ public class AlertManager: ObservableObject {
     
     public func closeBottomSheetItem() {
         self.bottomSheetItem = nil
+    }
+    
+    public func showContentToast(_ item: ContentToastItem) {
+        self.contentToastItem = item
+    }
+    
+    public func closeContentToast() {
+        self.contentToastItem = nil
     }
 }

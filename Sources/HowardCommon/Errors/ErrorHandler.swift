@@ -9,7 +9,8 @@ import Foundation
 import SwiftUI
 
 public class ErrorHandler: ObservableObject {
-    @Published var currentHandlerItem: ErrorHandlerItem?
+    @Published var showAlert: Bool = false
+    @Published var message: String = ""
     
     public init() {
         
@@ -18,12 +19,13 @@ public class ErrorHandler: ObservableObject {
     public func handle(error: Error?, handler: (() -> Bool)? = nil) {
         guard let error = error else { return }
         
-        Logger.error("\(error.localizedDescription)")
+        Logger.error("error: \(error.localizedDescription)")
         
         if handler?() == true {
             return
         }
         
-        currentHandlerItem = ErrorHandlerItem(error: error)
+        message = error.localizedDescription
+        showAlert = true
     }
 }
