@@ -8,7 +8,7 @@
 import AVFoundation
 import SwiftUI
 
-public final class DataModel: NSObject, ObservableObject {
+public final class DataModel: NSObject, ObservableObject, @unchecked Sendable {
     public weak var delegate: DataModelDelegate?
     public let camera = Camera()
     let photoCollection = PhotoCollection(smartAlbum: .smartAlbumUserLibrary)

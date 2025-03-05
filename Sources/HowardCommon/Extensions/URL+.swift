@@ -9,10 +9,10 @@ import Foundation
 import AVKit
 
 extension URL {
-    public func getDurationFromLocalfile() -> Float {
+    public func getDurationFromLocalfile() async throws -> Float {
         let audioAsset = AVURLAsset(url: self)
-        let duration = Float(CMTimeGetSeconds(audioAsset.duration))
-        return duration
+        let duration = try await audioAsset.load(.duration)
+        return Float(CMTimeGetSeconds(duration))
     }
     
     public var queryDictionary: [String: String]? {

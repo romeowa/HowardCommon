@@ -10,7 +10,7 @@ import CoreImage
 import UIKit
 import os.log
 
-public class Camera: NSObject {
+public class Camera: NSObject, @unchecked Sendable {
     weak var delegate: CameraDelegate?
     
     private let captureSession = AVCaptureSession()
@@ -233,7 +233,13 @@ public class Camera: NSObject {
             
             //            let isFlashAvailable = self.deviceInput?.device.isFlashAvailable ?? false
             //            photoSettings.flashMode = isFlashAvailable ? .auto : .off
-            photoSettings.isHighResolutionPhotoEnabled = true
+            if #available(iOS 16.0, *) {
+                // iOS 16 이상: maxPhotoDimensions 사용
+                photoSettings.maxPhotoDimensions = .init(width: 4032, height: 3024) // 12MP
+            } else {
+                // iOS 16 미만: isHighResolutionPhotoEnabled 사용
+                photoSettings.isHighResolutionPhotoEnabled = true
+            }
             
             if let previewPhotoPixelFormatType = photoSettings.availablePreviewPhotoPixelFormatTypes.first {
                 photoSettings.previewPhotoFormat = [kCVPixelBufferPixelFormatTypeKey as String: previewPhotoPixelFormatType]
@@ -300,7 +306,13 @@ public class Camera: NSObject {
         self.photoOutput = photoOutput
         self.videoOutput = videoOutput
         
-        photoOutput.isHighResolutionCaptureEnabled = true
+        if #available(iOS 16.0, *) {
+            // iOS 16 이상: maxPhotoDimensions 사용
+            photoOutput.maxPhotoDimensions = CMVideoDimensions(width: 4032, height: 3024) // 12MP 해상도
+        } else {
+            // iOS 16 미만: isHighResolutionCaptureEnabled 사용
+            photoOutput.isHighResolutionCaptureEnabled = true
+        }
         photoOutput.maxPhotoQualityPrioritization = .quality
         
         updateVideoOutputConnection()

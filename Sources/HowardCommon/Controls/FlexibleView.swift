@@ -29,9 +29,11 @@ public struct FlexibleView<Data: Collection, Content: View>: View where Data.Ele
                     ForEach(rowElement, id: \.self) { element in
                         content(element)
                             .fixedSize()
-                            .readSize { size in
-                                elementSizes[element] = size
-                            }
+                            .onGeometryChange(for: CGSize.self, of: { proxy in
+                                proxy.size
+                            }, action: { newValue in
+                                elementSizes[element] = newValue
+                            })
                     }
                     Spacer()
                 }

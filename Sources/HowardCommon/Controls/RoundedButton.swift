@@ -51,9 +51,12 @@ public struct RoundedButton<Label: View>: View {
                 .frame(height: size.height)
         )
         .contentShape(Rectangle())
-        .readSize { size in
-            self.size = size
-        }
+        .onGeometryChange(for: CGSize.self, of: { proxy in
+            proxy.size
+        }, action: { newValue in
+            guard newValue != .zero, !self.size.equalTo(newValue) else { return }
+            size = newValue
+        })
         .opacity(opacity)
         .onTapGesture {
             if enabled == false || performingTask == true {

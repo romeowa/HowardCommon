@@ -82,9 +82,12 @@ public struct AsyncToggle: View {
             .frame(width: bodySize.width, height: bodySize.height)
         }
         .background(.clear)
-        .readSize { size in
-            bodySize = size
-        }
+        .onGeometryChange(for: CGSize.self, of: { proxy in
+            proxy.size
+        }, action: { newValue in
+            guard newValue != .zero, !bodySize.equalTo(newValue) else { return }
+            bodySize = newValue
+        })
     }
 }
 

@@ -402,6 +402,40 @@ public extension Date {
         return formatter.string(from: self)
     }
     
+    var mediumTime: String {
+        var formatter: DateFormatter {
+            struct Static {
+                static var shortTimeFormatter: DateFormatter?
+            }
+            
+            if Static.shortTimeFormatter == nil {
+                Static.shortTimeFormatter = DateFormatter()
+                Static.shortTimeFormatter?.locale = Singleton.currentLocale
+                Static.shortTimeFormatter?.dateStyle = DateFormatter.Style.none
+                Static.shortTimeFormatter?.timeStyle = DateFormatter.Style.medium
+            }
+            return Static.shortTimeFormatter!
+        }
+        return formatter.string(from: self)
+    }
+    
+    var longTime: String {
+        var formatter: DateFormatter {
+            struct Static {
+                static var shortTimeFormatter: DateFormatter?
+            }
+            
+            if Static.shortTimeFormatter == nil {
+                Static.shortTimeFormatter = DateFormatter()
+                Static.shortTimeFormatter?.locale = Singleton.currentLocale
+                Static.shortTimeFormatter?.dateStyle = DateFormatter.Style.none
+                Static.shortTimeFormatter?.timeStyle = DateFormatter.Style.long
+            }
+            return Static.shortTimeFormatter!
+        }
+        return formatter.string(from: self)
+    }
+    
     var minusOneDayComponents: DateComponents {
         struct Static {
             static var minusOneDayComponents: DateComponents?
