@@ -548,6 +548,23 @@ public extension Date {
         return formatter.string(from: self)
     }
     
+    var MMddShortTime: String {
+        var formatter: DateFormatter {
+            struct Static {
+                static var formatter: DateFormatter?
+            }
+            
+            if Static.formatter == nil {
+                Static.formatter = DateFormatter()
+                Static.formatter?.locale = Singleton.currentLocale
+                Static.formatter?.dateFormat = "M. d a hh:mm"
+            }
+            return Static.formatter!
+        }
+        return formatter.string(from: self)
+    }
+
+    
     var callaboRecordListFormat: String {
         var formatter: DateFormatter {
             struct Static {
