@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by howard on 2023/07/09.
 //
@@ -17,14 +17,14 @@ public class LogItem: ObservableObject, Identifiable {
         
         var description: String {
             switch self {
-            case .verbose:
-                return "[V]"
-            case .debug:
-                return "[D]"
-            case .warnning:
-                return "[🔅]"
-            case .error:
-                return "[👺]"
+                case .verbose:
+                    return "[V]"
+                case .debug:
+                    return "[D]"
+                case .warnning:
+                    return "[🔅]"
+                case .error:
+                    return "[👺]"
             }
         }
     }
@@ -34,9 +34,11 @@ public class LogItem: ObservableObject, Identifiable {
         case control = "[CT]"
         case auth = "[AT]"
         case soundCenter = "[SC]"
+        case userAction = "[✨]"
     }
     
     public var id = UUID()
+    
     var message: String
     var level: Level
     var servcie = Service.default
