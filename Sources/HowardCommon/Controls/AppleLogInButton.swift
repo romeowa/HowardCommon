@@ -70,7 +70,7 @@ public class AppleLoginCoordinator: NSObject, ASAuthorizationControllerDelegate,
     public func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
             guard let currentNonce else {
-                self.fail(Errors.ValidationError.nilValue("currentNoce가 세팅되지 않는 상태로 들어왔음."))
+                self.fail(Errors.ValidationError.nilValue("currentNonce가 세팅되지 않는 상태로 들어왔음."))
                 return
             }
 
@@ -119,8 +119,7 @@ public class AppleLoginCoordinator: NSObject, ASAuthorizationControllerDelegate,
     
     private func randomNonceString(length: Int = 32) -> String {
         precondition(length > 0)
-        let charset: [Character] =
-        Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
+        let charset: [Character] = Array("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._")
         var result = ""
         var remainingLength = length
         

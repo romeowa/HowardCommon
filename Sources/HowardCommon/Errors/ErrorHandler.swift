@@ -12,10 +12,6 @@ public class ErrorHandler: ObservableObject {
     @Published var showAlert: Bool = false
     @Published var message: String = ""
     
-    public init() {
-        
-    }
-    
     public func handle(error: Error?, handler: (() -> Bool)? = nil) {
         guard let error = error else { return }
         
