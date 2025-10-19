@@ -9,9 +9,12 @@ import Foundation
 import SwiftUI
 
 public class ErrorHandler: ObservableObject {
-    @Published var showAlert: Bool = false
-    @Published var message: String = ""
-    
+    @Published public var showAlert: Bool = false
+    @Published public var message: String = ""
+
+    // 외부 모듈에서 생성 가능하도록 public init 추가
+    public init() {}
+
     public func handle(error: Error?, handler: (() -> Bool)? = nil) {
         guard let error = error else { return }
         
