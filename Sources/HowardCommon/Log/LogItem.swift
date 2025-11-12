@@ -12,17 +12,17 @@ public class LogItem: ObservableObject, Identifiable {
     public enum Level: Int {
         case verbose
         case debug
-        case warnning
+        case warning
         case error
         
         var description: String {
             switch self {
                 case .verbose:
-                    return "[V]"
+                    return "[💬]"
                 case .debug:
-                    return "[D]"
-                case .warnning:
-                    return "[🔅]"
+                    return "[🐞]"
+                case .warning:
+                    return "[⚠️]"
                 case .error:
                     return "[👺]"
             }
@@ -51,10 +51,11 @@ public class LogItem: ObservableObject, Identifiable {
         self.date = Date()
     }
     
-    func desciption() -> String{
+    func desciption() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "HH:mm:ss.SSS"
         
         return "\(level.description)\(servcie.rawValue)[\(dateFormatter.string(from: date))]: \(message)"
     }
 }
+

@@ -6,16 +6,31 @@
 //
 
 import Foundation
+import os
 
 public class Logger: ObservableObject {
     public static var shared = Logger()
     @Published public var logs = [LogItem]()
+    
+    let logger = os.Logger(subsystem: "home.sweet.nunigu", category: "common")
+    
     public init() {
         
     }
     
     private func addLog(_ log: LogItem) {
-        print("\(log.desciption())")
+        
+        switch log.level {
+        case .verbose:
+            logger.debug("\(log.desciption())")
+        case .debug:
+            logger.debug("\(log.desciption())")
+        case .warning:
+            logger.error("\(log.desciption())")
+        case .error:
+            logger.fault("\(log.desciption())")
+        }
+
         DispatchQueue.main.async {
             Logger.shared.logs.append(log)
         }
@@ -29,8 +44,8 @@ public class Logger: ObservableObject {
         Logger.shared.addLog(LogItem(message: message, level: .debug, service: service))
     }
     
-    public static func warnning(_ message: String, service: LogItem.Service = .default) {
-        Logger.shared.addLog(LogItem(message: message, level: .warnning, service: service))
+    public static func warning(_ message: String, service: LogItem.Service = .default) {
+        Logger.shared.addLog(LogItem(message: message, level: .warning, service: service))
     }
     
     public static func error(_ message: String, service: LogItem.Service = .default) {
@@ -41,3 +56,4 @@ public class Logger: ObservableObject {
         Logger.shared.logs.removeAll()
     }
 }
+
