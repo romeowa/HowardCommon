@@ -43,19 +43,25 @@ public class LogItem: ObservableObject, Identifiable {
     var level: Level
     var servcie = Service.default
     var date: Date
+    var function: String
     
-    init(message: String, level: Level, service: Service) {
+    init(
+        message: String,
+        level: Level,
+        service: Service,
+        function: String
+    ) {
         self.message = message
         self.level = level
         self.servcie = service
         self.date = Date()
+        self.function = function
     }
     
     func desciption() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "HH:mm:ss.SSS"
-        
-        return "\(level.description)\(servcie.rawValue)[\(dateFormatter.string(from: date))]: \(message)"
+        return "\(level.description)\(servcie.rawValue)[\(dateFormatter.string(from: date))]:\(function) \(message)"
     }
 }
 
